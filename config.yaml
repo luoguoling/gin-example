@@ -1,0 +1,33 @@
+app:
+  name: "web_app122111"
+  mode: "dev"
+  port: 8081
+  start_time: "2021-10-26"
+  machine_id: 24
+
+log:
+  level: "debug"
+  filename: "web_app.log"
+  max_size: 300
+  max_age: 30
+  max_backups: 30
+
+mysql:
+  host: "127.0.0.1"
+  port: 3306
+  user: "root"
+  password: "rolinabc123"
+  dbname: "sql_demo"
+  max_open_conns: 200
+  max_idle_conns: 50
+
+redis:
+  host: "127.0.0.1"
+  port: 6379
+  db: 0
+  password: ""
+  poolsize: ""
+
+version:
+  version: "0.0.3"
+
