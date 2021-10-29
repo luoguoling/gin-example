@@ -4,6 +4,7 @@ import (
 	"context"
 	"flag"
 	"fmt"
+	"web_app/controller"
 	"web_app/pkg/snowflake"
 
 	//"github.com/spf13/viper"
@@ -76,6 +77,11 @@ func main() {
 	}
 	mysql.Opertedb()
 	fmt.Println(snowflake.GenID())
+	//初始化gin校验使用的翻译器
+	if err := controller.InitTrans("zh"); err != nil {
+		fmt.Println("翻译初始化错误!!!")
+		return
+	}
 	//5.注册路由
 	r := routes.Setup()
 	//6.启动服务(优雅关机)

@@ -22,6 +22,8 @@ func InitGorm(cfg *settings.MysqlConfig) (err error) {
 	if err != nil {
 		zap.L().Error("mysql gorm数据库连接失败!!!")
 	}
+	gormdb.SingularTable(true)
+	gormdb.LogMode(true)
 	return err
 
 }

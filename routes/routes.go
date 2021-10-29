@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"time"
+	"web_app/controller"
 	"web_app/logger"
 	"web_app/settings"
 )
@@ -21,5 +22,7 @@ func Setup() *gin.Engine {
 		})
 
 	})
+	//注册业务路由
+	r.POST("/signup", controller.SignUpHandler)
 	return r
 }
