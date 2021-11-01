@@ -39,7 +39,7 @@ func main() {
 		fmt.Println("配置文件加载成功!!!!")
 	}
 	//2.初始化配置
-	if err := logger.Init(settings.Conf.LogConfig); err != nil {
+	if err := logger.Init(settings.Conf.LogConfig, settings.Conf.Mode); err != nil {
 		fmt.Printf("日志始化失败,err:%v\n", err)
 		return
 	}
@@ -83,7 +83,7 @@ func main() {
 		return
 	}
 	//5.注册路由
-	r := routes.Setup()
+	r := routes.Setup(settings.Conf.Mode)
 	//6.启动服务(优雅关机)
 	srv := &http.Server{
 		//Addr:    fmt.Sprintf("%d", viper.GetInt("app.port")),

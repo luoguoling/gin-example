@@ -10,6 +10,7 @@ import (
 	"web_app/models"
 )
 
+//注册
 func SignUpHandler(c *gin.Context) {
 	// 1.参数校验
 	p := new(models.ParamSignUp)
@@ -44,6 +45,38 @@ func SignUpHandler(c *gin.Context) {
 			"code": 200,
 			"msg":  "success",
 			"data": p,
+		})
+	}
+
+}
+
+//登录
+func LoginHandler(c *gin.Context) {
+	p := new(models.ParamLogin)
+	if err := c.ShouldBind(p); err != nil {
+		zap.L().Error("Login with valid param", zap.Error(err))
+		errs, ok := err.(validator.ValidationErrors)
+		if !ok {
+			c.JSON(http.StatusOK, gin.H{
+				"msg": err.Error(),
+			})
+			return
+		}
+		c.JSON(http.StatusOK, gin.H{
+			"msg": "登录请求参数错误",
+			"err": removeTopStruct(errs.Translate(trans)),
+		})
+		return
+	}
+	if err := logic.Login(p); err != nil {
+		zap.L().Error("用户登录失败!!!", zap.String("username", p.Username), zap.Error(err))
+		c.JSON(http.StatusOK, gin.H{
+			"message": err.Error(),
+		})
+
+	} else {
+		c.JSON(http.StatusOK, gin.H{
+			"message": "登录成功!!!",
 		})
 	}
 

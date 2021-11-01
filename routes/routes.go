@@ -9,8 +9,10 @@ import (
 	"web_app/settings"
 )
 
-func Setup() *gin.Engine {
-
+func Setup(mode string) *gin.Engine {
+	if mode == gin.ReleaseMode {
+		gin.SetMode(gin.ReleaseMode)
+	}
 	r := gin.New()
 	r.Use(logger.GinLogger(), logger.GinRecovery(true))
 	fmt.Println("打印viper值")
@@ -24,5 +26,7 @@ func Setup() *gin.Engine {
 	})
 	//注册业务路由
 	r.POST("/signup", controller.SignUpHandler)
+	//登录路由
+	r.POST("/login", controller.LoginHandler)
 	return r
 }

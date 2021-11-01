@@ -1,6 +1,7 @@
 package logic
 
 import (
+	"fmt"
 	"web_app/dao/mysql"
 	"web_app/models"
 	"web_app/pkg/snowflake"
@@ -25,4 +26,18 @@ func SignUp(p *models.ParamSignUp) (err error) {
 
 	err = mysql.InsertUser(user)
 	return err
+}
+
+//登录
+func Login(p *models.ParamLogin) (err error) {
+	user := &models.User{
+		Username: p.Username,
+		Password: p.Password,
+	}
+	if err := mysql.CheckUser(user); err != nil {
+		fmt.Println("用户检查失败")
+		return err
+	}
+	return nil
+
 }
