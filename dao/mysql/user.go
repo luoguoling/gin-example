@@ -19,10 +19,11 @@ type User struct {
 	UpdateTime string `json:"update_time"`
 }
 
-func TableName() {
-	return
-
-}
+var (
+	ErrorUserExist       = errors.New(("用户已经存在"))
+	ErrorUserNotExist    = errors.New("用户不存在")
+	ErrorInvalidPassword = errors.New("用户密码错误")
+)
 
 func CheckUserExist(username string) error {
 	//对密码加密
@@ -32,7 +33,7 @@ func CheckUserExist(username string) error {
 		return err
 	}
 	if count > 0 {
-		return errors.New("用户已经存在！！！")
+		return ErrorUserExist
 	}
 	return nil
 }
@@ -72,13 +73,13 @@ func CheckUser(user *models.User) (err error) {
 		return
 	}
 	if err == sql.ErrNoRows {
-		return errors.New("用户不存在")
+		return ErrorUserNotExist
 	}
 
 	//判断密码是否正确
 	password := encryptPassword(oPassword)
 	if password != user.Password {
-		return errors.New("密码错误!!!")
+		return ErrorInvalidPassword
 	}
 	return
 

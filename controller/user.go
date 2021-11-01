@@ -1,11 +1,12 @@
 package controller
 
 import (
+	"errors"
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/go-playground/validator/v10"
 	"go.uber.org/zap"
-	"net/http"
+	"web_app/dao/mysql"
 	"web_app/logic"
 	"web_app/models"
 )
@@ -21,15 +22,10 @@ func SignUpHandler(c *gin.Context) {
 		//判断err是不是validator.ValidationErrors错误
 		errs, ok := err.(validator.ValidationErrors)
 		if !ok {
-			c.JSON(http.StatusOK, gin.H{
-				"msg": err.Error(),
-			})
+			ResponseError(c, CodeInvalidParam)
 			return
 		}
-		c.JSON(http.StatusOK, gin.H{
-			"msg": "请求参数错误",
-			"err": removeTopStruct(errs.Translate(trans)),
-		})
+		ResponseErrorWithMsg(c, CodeInvalidParam, removeTopStruct(errs.Translate(trans)))
 		return
 	}
 	fmt.Println(p.Username, p.RePassword)
@@ -37,15 +33,12 @@ func SignUpHandler(c *gin.Context) {
 	err := logic.SignUp(p)
 	// 3.返回响应
 	if err != nil {
-		c.JSON(http.StatusOK, gin.H{
-			"err": err.Error(),
-		})
+		if errors.Is(err, mysql.ErrorUserExist) {
+			ResponseError(c, CodeUserExist)
+		}
+		ResponseError(c, CodeServerBusy)
 	} else {
-		c.JSON(http.StatusOK, gin.H{
-			"code": 200,
-			"msg":  "success",
-			"data": p,
-		})
+		ResponseSuccess(c, nil)
 	}
 
 }
@@ -57,27 +50,21 @@ func LoginHandler(c *gin.Context) {
 		zap.L().Error("Login with valid param", zap.Error(err))
 		errs, ok := err.(validator.ValidationErrors)
 		if !ok {
-			c.JSON(http.StatusOK, gin.H{
-				"msg": err.Error(),
-			})
+			ResponseError(c, CodeInvalidParam)
 			return
 		}
-		c.JSON(http.StatusOK, gin.H{
-			"msg": "登录请求参数错误",
-			"err": removeTopStruct(errs.Translate(trans)),
-		})
+		ResponseErrorWithMsg(c, CodeInvalidParam, removeTopStruct(errs.Translate(trans)))
 		return
 	}
 	if err := logic.Login(p); err != nil {
 		zap.L().Error("用户登录失败!!!", zap.String("username", p.Username), zap.Error(err))
-		c.JSON(http.StatusOK, gin.H{
-			"message": err.Error(),
-		})
-
+		if errors.Is(err, mysql.ErrorUserNotExist) {
+			ResponseError(c, CodeUserNotExist)
+			return
+		}
+		ResponseError(c, CodeInvalidPassword)
 	} else {
-		c.JSON(http.StatusOK, gin.H{
-			"message": "登录成功!!!",
-		})
+		ResponseSuccess(c, nil)
 	}
 
 }
