@@ -3,6 +3,7 @@ mode: "dev"
 starttime: "2021-10-27"
 machine_id: 22
 port: 8081
+jwt_secret: "rolinabc12311"
 
 log:
   level: "debug"

@@ -4,6 +4,7 @@ go 1.15
 
 require (
 	github.com/bwmarrin/snowflake v0.3.0
+	github.com/dgrijalva/jwt-go v3.2.0+incompatible
 	github.com/fsnotify/fsnotify v1.5.1
 	github.com/gin-gonic/gin v1.7.4
 	github.com/go-playground/locales v0.13.0
@@ -15,6 +16,8 @@ require (
 	github.com/jmoiron/sqlx v1.3.4
 	github.com/natefinch/lumberjack v2.0.0+incompatible
 	github.com/spf13/viper v1.9.0
+	github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/common v1.0.285
+	github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/vpc v1.0.285
 	go.uber.org/zap v1.17.0
 	gopkg.in/natefinch/lumberjack.v2 v2.0.0 // indirect
 )

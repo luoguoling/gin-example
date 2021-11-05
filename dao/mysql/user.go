@@ -64,7 +64,7 @@ func encryptPassword(opassword string) string {
 }
 
 //检查登录用户是否正确
-func CheckUser(user *models.User) (err error) {
+func Login(user *models.User) (err error) {
 	oPassword := user.Password
 	sqlStr := "select username,password from user where username = ?"
 	err = db.Get(user, sqlStr, user.Username)
