@@ -904,3 +904,5 @@
 {"level":"INFO","time":"2021-11-05T19:35:33.972+0800","caller":"logger/logger.go:81","msg":"/login","status":200,"method":"POST","path":"/login","query":"","ip":"127.0.0.1","user-agent":"ApiPOST Runtime +https://www.apipost.cn","errors":"","cost":0.0073436}
 {"level":"INFO","time":"2021-11-05T19:35:36.040+0800","caller":"logger/logger.go:81","msg":"/login","status":200,"method":"POST","path":"/login","query":"","ip":"127.0.0.1","user-agent":"ApiPOST Runtime +https://www.apipost.cn","errors":"","cost":0.0021138}
 {"level":"INFO","time":"2021-11-05T19:49:41.516+0800","caller":"web_app1/main.go:123","msg":"Server exiting"}
+{"level":"INFO","time":"2021-11-05T19:50:03.789+0800","caller":"logger/logger.go:81","msg":"/version","status":200,"method":"GET","path":"/version","query":"","ip":"127.0.0.1","user-agent":"ApiPOST Runtime +https://www.apipost.cn","errors":"","cost":0}
+{"level":"INFO","time":"2021-11-05T19:50:05.980+0800","caller":"logger/logger.go:81","msg":"/version","status":200,"method":"GET","path":"/version","query":"","ip":"127.0.0.1","user-agent":"ApiPOST Runtime +https://www.apipost.cn","errors":"","cost":0}
