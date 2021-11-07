@@ -19,7 +19,7 @@ type Claims struct {
 	jwt.StandardClaims
 }
 
-func GenerateToken(userID int64, username string) (string, error) {
+func GenerateToken(userID int64, username string) (atoken, rtoken string, err error) {
 
 	claims := Claims{
 		userID,
@@ -32,9 +32,13 @@ func GenerateToken(userID int64, username string) (string, error) {
 	}
 	fmt.Println(claims)
 
-	tokenClaims := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
-	token, err := tokenClaims.SignedString(MySecret)
-	return token, err
+	//tokenClaims := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
+	atoken, err = jwt.NewWithClaims(jwt.SigningMethodHS256, claims).SignedString(MySecret)
+	rtoken, err = jwt.NewWithClaims(jwt.SigningMethodHS384, jwt.StandardClaims{
+		ExpiresAt: time.Now().Add(time.Second * 30).Unix(),
+		Issuer:    "rolin",
+	}).SignedString(MySecret)
+	return
 }
 func ParseToken(token string) (*Claims, error) {
 	//解析token
@@ -50,4 +54,26 @@ func ParseToken(token string) (*Claims, error) {
 	}
 	return nil, errors.New("invalid token")
 
+}
+
+//刷新token
+//func RefreshToken(aToken, rToken string) (newAToken, newRToken string, err error) {
+//	//refresh token 无效直接返回
+//	if err, _ := jwt.Parse(rToken, KeyFunc); err != nil {
+//		return
+//	}
+//	//从旧的token解析出claims
+//	var claim Claims
+//	_, err = jwt.ParseWithClaims(aToken, &claim, KeyFunc)
+//	v, _ := err.(jwt.ValidationError)
+//	//如果是过期错误，且rtoken没有过期，就更新token
+//	if v.Errors == jwt.ValidationErrorExpired {
+//		return GenerateToken(claim.UserID, claim.Username)
+//	}
+//	return
+//
+//}
+
+func KeyFunc(token *jwt.Token) (interface{}, error) {
+	return nil, nil
 }

@@ -57,7 +57,7 @@ func LoginHandler(c *gin.Context) {
 		return
 	}
 	//业务逻辑处理
-	token, err := logic.Login(p)
+	token, _, err := logic.Login(p)
 	fmt.Println("key key is ...")
 	fmt.Println(token, err)
 	if err != nil {
