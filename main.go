@@ -23,7 +23,7 @@ import (
 	"web_app/settings"
 )
 
-//go web脚手架模板
+//go web脚手架模板1
 func main() {
 	//if len(os.Args) < 2 {
 	//	fmt.Println("请输入配置文件config")

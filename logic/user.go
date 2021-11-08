@@ -30,14 +30,14 @@ func SignUp(p *models.ParamSignUp) (err error) {
 }
 
 //登录
-func Login(p *models.ParamLogin) (token string, err error) {
+func Login(p *models.ParamLogin) (atoken, rtoken string, err error) {
 	user := &models.User{
 		Username: p.Username,
 		Password: p.Password,
 	}
 	if err := mysql.Login(user); err != nil {
 		fmt.Println("用户检查失败")
-		return "", err
+		return "", "", err
 	}
 	//生成jwt的token
 	fmt.Println("key is ....")
