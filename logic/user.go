@@ -1,8 +1,10 @@
 package logic
 
 import (
+	"context"
 	"fmt"
 	"web_app/dao/mysql"
+	"web_app/dao/redis"
 	"web_app/models"
 	"web_app/pkg/jwt"
 	"web_app/pkg/snowflake"
@@ -41,7 +43,13 @@ func Login(p *models.ParamLogin) (atoken, rtoken string, err error) {
 	}
 	//生成jwt的token
 	fmt.Println("key is ....")
-	fmt.Println(jwt.GenerateToken(user.UserID, user.Username))
+	var ctx = context.Background()
+	token, _, _ := jwt.GenerateToken(user.UserID, user.Username)
+	err = redis.Rdb.Set(ctx, p.Username, token, 0).Err()
+	if err != nil {
+		fmt.Println("插入数据失败!!!")
+
+	}
 	return jwt.GenerateToken(user.UserID, user.Username)
 
 }

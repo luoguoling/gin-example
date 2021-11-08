@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"web_app/controller"
 	"web_app/pkg/snowflake"
-	"web_app/pkg/util"
+	//"web_app/pkg/util"
 
 	//"github.com/spf13/viper"
 	"go.uber.org/zap"
@@ -84,7 +84,7 @@ func main() {
 		return
 	}
 	//getlocation
-	util.GetLocation()
+	// util.GetLocation()
 	//5.注册路由
 	r := routes.Setup(settings.Conf.Mode)
 	//6.启动服务(优雅关机)

@@ -1,9 +1,12 @@
 package jwt
 
 import (
+	"context"
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"strings"
 	"web_app/controller"
+	"web_app/dao/redis"
 	"web_app/pkg/jwt"
 )
 
@@ -32,8 +35,19 @@ func JWTAuthMiddleware() gin.HandlerFunc {
 			c.Abort()
 			return
 		}
-		// 将当前请求的username信息保存到请求的上下文c上
-		c.Set(controller.CtxUserIDKey, mc.UserID)
-		c.Next() // 后续的处理函数可以用过c.Get("username")来获取当前请求的用户信息
+		var ctx = context.Background()
+		oldtoken, _ := redis.Rdb.Get(ctx, mc.Username).Result()
+		if oldtoken == parts[1] {
+			//在统一设备登录
+			fmt.Println("在同一设备登录了!!!")
+			// 将当前请求的username信息保存到请求的上下文c上
+			c.Set(controller.CtxUserIDKey, mc.UserID)
+			c.Next() // 后续的处理函数可以用过c.Get("username")来获取当前请求的用户信息
+
+		} else {
+			fmt.Println("登录key不一致!!! 在不同的设备已经登录了，即将跳转到登录页面!!!")
+			controller.ResponseErrorWithMsg(c, 200, "登录设备不一致跳转!!!")
+		}
+
 	}
 }
