@@ -28,9 +28,13 @@ func Setup(mode string) *gin.Engine {
 		})
 
 	})
+	v1 := r.Group("/api/v1")
 	//注册业务路由
-	r.POST("/signup", controller.SignUpHandler)
+	v1.POST("/signup", controller.SignUpHandler)
 	//登录路由
-	r.POST("/login", controller.LoginHandler)
+	v1.POST("/login", controller.LoginHandler)
+
+	v1.Use(jwt.JWTAuthMiddleware())
+	v1.GET("/community", controller.GetCommunityHandler)
 	return r
 }

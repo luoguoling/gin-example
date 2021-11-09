@@ -47,6 +47,7 @@ func JWTAuthMiddleware() gin.HandlerFunc {
 		} else {
 			fmt.Println("登录key不一致!!! 在不同的设备已经登录了，即将跳转到登录页面!!!")
 			controller.ResponseErrorWithMsg(c, 200, "登录设备不一致跳转!!!")
+			c.Abort()
 		}
 
 	}

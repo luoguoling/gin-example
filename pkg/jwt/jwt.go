@@ -9,7 +9,7 @@ import (
 )
 
 //var jwtSecret = []byte(settings.Conf.JwtSecret)
-var MySecret = []byte("夏天夏天悄悄过去")
+var MySecret = []byte("夏天夏天悄悄过去11")
 
 const TokenExpireDuration = time.Hour * 2
 

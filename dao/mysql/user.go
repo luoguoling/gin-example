@@ -20,7 +20,7 @@ type User struct {
 }
 
 var (
-	ErrorUserExist       = errors.New(("用户已经存在"))
+	ErrorUserExist       = errors.New("用户已经存在")
 	ErrorUserNotExist    = errors.New("用户不存在")
 	ErrorInvalidPassword = errors.New("用户密码错误")
 )

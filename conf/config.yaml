@@ -9,7 +9,7 @@ log:
   level: "debug"
   filename: "web_app.log"
   max_size: 300
-  max_age: 30
+  max_age: 31
   max_backups: 30
 
 mysql:
