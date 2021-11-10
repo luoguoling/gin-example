@@ -48,6 +48,10 @@ type VersionConfig struct {
 	Version string `mapstructure:"version"`
 }
 
+type AuthConfig struct {
+	JwtExpire int64 `mapstructure:"jwt_expire"`
+}
+
 func Init() (err error) {
 	//viper.SetConfigName(filepath)
 	viper.SetConfigFile("./conf/config.yaml") // 指定配置文件

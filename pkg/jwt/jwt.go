@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"github.com/dgrijalva/jwt-go"
+	"github.com/spf13/viper"
 	//"github.com/golang-jwt/jwt"
 	"time"
 )
@@ -26,7 +27,7 @@ func GenerateToken(userID int64, username string) (atoken, rtoken string, err er
 		username,
 		jwt.StandardClaims{
 			NotBefore: int64(time.Now().Unix() - 1000),
-			ExpiresAt: time.Now().Add(TokenExpireDuration).Unix(),
+			ExpiresAt: time.Now().Add(time.Duration(viper.GetInt("auth.jwt_expire")) * time.Hour).Unix(),
 			Issuer:    "rolin",
 		},
 	}

@@ -35,6 +35,9 @@ func Setup(mode string) *gin.Engine {
 	v1.POST("/login", controller.LoginHandler)
 
 	v1.Use(jwt.JWTAuthMiddleware())
-	v1.GET("/community", controller.GetCommunityHandler)
+	{
+		v1.GET("/community", controller.GetCommunityHandler)
+		v1.GET("/community/:id", controller.CommunityDetailHandler)
+	}
 	return r
 }

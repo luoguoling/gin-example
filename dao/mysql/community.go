@@ -1,31 +1,31 @@
 package mysql
 
 import (
-	"fmt"
+	"database/sql"
 	"go.uber.org/zap"
 	"web_app/models"
 )
 
 //获取列表数据
-func GetCommunity() (data []models.Community, err error) {
+func GetCommunityList() (communityList []*models.Community, err error) {
 	sqlStr := "select community_id,community_name from  community"
-	rows, err := db.Query(sqlStr)
-	if err != nil {
-		zap.L().Error("GetCommunity 执行query报错", zap.Error(err))
-		fmt.Println("查询数据库报错!!!!")
+	err = db.Select(&communityList, sqlStr)
+	if err != sql.ErrNoRows {
+		zap.L().Warn("communityList is null")
+		err = nil
 	}
-	var community models.Community
-	for rows.Next() {
-		err := rows.Scan(&community)
-		if err != nil {
-			fmt.Println("赋值报错", err)
+
+	return
+}
+
+//获取详情
+func GetCommunityByID(id int64) (community *models.CommunityDetail, err error) {
+	community = new(models.CommunityDetail)
+	sqlStr := "select community_id,community_name,introduction,create_time from  community where community_id = ?"
+	if err := db.Get(community, sqlStr, id); err != nil {
+		if err == sql.ErrNoRows {
+			err = ErrorInvalidID
 		}
-
 	}
-	if err != nil {
-		zap.L().Error("GetCommunity查询数据报错", zap.Error(err))
-		return
-	}
-
 	return
 }
