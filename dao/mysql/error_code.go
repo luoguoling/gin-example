@@ -7,4 +7,5 @@ var (
 	ErrorUserNotExist    = errors.New("用户不存在")
 	ErrorInvalidPassword = errors.New("用户密码错误")
 	ErrorInvalidID       = errors.New("无效的ID")
+	ErrorQueryFailed     = errors.New("查询失败")
 )
