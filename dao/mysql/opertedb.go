@@ -13,12 +13,26 @@ type UserInfo struct {
 	Hobby  string
 }
 
+//Student 学生
+type Student struct {
+	ID     int
+	Gender string
+	Name   string
+}
+
+//Class 班级
+type Class struct {
+	Title    string
+	Students []*Student
+}
+
 func Opertedb() {
 	userid := snowflake.GenID()
 	fmt.Println(userid)
 	u1 := UserInfo{5, userid, "七米", "男", "篮球"}
 
 	gormdb.AutoMigrate(&UserInfo{})
+	gormdb.AutoMigrate(&Class{})
 	gormdb.Create(&u1)
 	var u = new(UserInfo)
 	gormdb.First(u)
