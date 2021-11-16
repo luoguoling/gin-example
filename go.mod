@@ -19,6 +19,7 @@ require (
 	github.com/spf13/viper v1.9.0
 	github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/common v1.0.285
 	github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/vpc v1.0.285
+	github.com/unknwon/com v1.0.1
 	go.uber.org/zap v1.17.0
 	golang.org/x/sys v0.0.0-20211107104306-e0b2ad06fe42 // indirect
 	gopkg.in/natefinch/lumberjack.v2 v2.0.0 // indirect

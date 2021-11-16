@@ -7,6 +7,8 @@ import (
 	"strconv"
 	"web_app/logic"
 	"web_app/models"
+	"web_app/pkg/util"
+	"web_app/settings"
 )
 
 func CreatePostHandler(c *gin.Context) {
@@ -56,4 +58,16 @@ func GetPostDetailHandler(c *gin.Context) {
 	}
 	//返回结果
 	ResponseSuccess(c, data)
+}
+
+//获取所有帖子
+func GetPostsHandler(c *gin.Context) {
+	//获取数据
+	posts, err := logic.GetPosts(util.GetPage(c), settings.Conf.PageSize)
+	if err != nil {
+		ResponseError(c, CodeServerBusy)
+		return
+	}
+	ResponseSuccess(c, posts)
+
 }

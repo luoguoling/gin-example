@@ -28,7 +28,7 @@ func GetPostDetail(id int64) (data *models.ApiPostDetail, err error) {
 		zap.L().Error("mysql.GetPostDetail(id) failed", zap.Error(err))
 		return nil, err
 	}
-	//通过用户id获取用户名字
+	//通过用户id获取用户
 	user, err := mysql.GetUserByID(data.AuthorID)
 	if err != nil {
 		zap.L().Error("mysql.GetUserByID(data.AuthorID) failed", zap.Error(err))
@@ -42,4 +42,32 @@ func GetPostDetail(id int64) (data *models.ApiPostDetail, err error) {
 	data.CommunityName = community.CommunityName
 	fmt.Println("logic.data is ", data)
 	return data, nil
+}
+
+//获取所有帖子的数据
+func GetPosts(pageNum, pageSize int) (posts []*models.ApiPostDetail, err error) {
+	posts, err = mysql.GetPosts(pageNum, pageSize)
+	if err != nil {
+		zap.L().Error("mysql.GetPosts failed", zap.Error(err))
+	}
+	postSlice := make([]*models.ApiPostDetail, 0, len(posts))
+	for _, post := range posts {
+		postnew := post
+		//通过用户id获取用户
+		user, err := mysql.GetUserByID(postnew.AuthorID)
+		if err != nil {
+			zap.L().Error("mysql.GetUserByID(data.AuthorID) failed", zap.Error(err))
+		}
+		postnew.AuthorName = user.Username
+		community, err := mysql.GetCommunityByID(postnew.CommunityID)
+		if err != nil {
+			zap.L().Error("mysql.GetCommunityByID() failed", zap.String("community_id", fmt.Sprint(postnew.CommunityID)), zap.Error(err))
+
+		}
+		postnew.CommunityName = community.CommunityName
+		postSlice = append(postSlice, postnew)
+
+	}
+	return postSlice, nil
+
 }

@@ -12,10 +12,11 @@ var Conf = new(AppConfig)
 type AppConfig struct {
 	Name           string `mapstructure:"name"`
 	Mode           string `mapstructure:"mode"`
-	Port           string `mapstucture:"port"`
-	StartTime      string `mapstucture:"starttime"`
-	MachineID      int64  `mapstucture:"machine_id"`
-	JwtSecret      string `mapstucture:"jwt_secret"`
+	Port           string `mapstructure:"port"`
+	StartTime      string `mapstructure:"starttime"`
+	MachineID      int64  `mapstructure:"machine_id"`
+	JwtSecret      string `mapstructure:"jwt_secret"`
+	PageSize       int    `mapstructure:"page_size"`
 	*LogConfig     `mapstructure:"log"`
 	*MysqlConfig   `mapstructure:"mysql"`
 	*RedisConfig   `mapstructure:"redis"`
