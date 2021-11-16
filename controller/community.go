@@ -8,16 +8,17 @@ import (
 	"web_app/logic"
 )
 
-func GetCommunityHandler(c *gin.Context) {
+func CommunityHandler(c *gin.Context) {
 	//获取分类列表
-	data, err := logic.GetCommunityList()
-	fmt.Println(data)
+	communityList, err := logic.GetCommunityList()
+	fmt.Println("社区数据是....")
+	fmt.Println(communityList)
 	if err != nil {
 		zap.L().Error("GetCommunity() fail", zap.Error(err))
 		ResponseError(c, CodeServerBusy)
 		return
 	}
-	ResponseSuccess(c, data)
+	ResponseSuccess(c, communityList)
 
 }
 

@@ -18,7 +18,7 @@ func SignUpHandler(c *gin.Context) {
 
 	if err := c.ShouldBindJSON(&p); err != nil {
 		//请求参数错误,返回响应
-		zap.L().Error("SignUp with valid param", zap.Error(err))
+		zap.L().Error("SignUp with valid param1", zap.Error(err))
 		//判断err是不是validator.ValidationErrors错误
 		errs, ok := err.(validator.ValidationErrors)
 		if !ok {
@@ -32,14 +32,17 @@ func SignUpHandler(c *gin.Context) {
 	// 2.业务处理
 	err := logic.SignUp(p)
 	// 3.返回响应
-	if err != nil {
-		if errors.Is(err, mysql.ErrorUserExist) {
-			ResponseError(c, CodeUserExist)
-		}
-		ResponseError(c, CodeServerBusy)
-	} else {
-		ResponseSuccess(c, nil)
+	if errors.Is(err, mysql.ErrorUserExit) {
+		zap.L().Error("用户已经存在!!!,不要重复注册!!!")
+		ResponseError(c, CodeUserExist)
+		return
 	}
+	if err != nil {
+		zap.L().Error("mysql.Register() failed", zap.Error(err))
+		ResponseError(c, CodeServerBusy)
+		return
+	}
+	ResponseSuccess(c, nil)
 
 }
 
@@ -62,7 +65,7 @@ func LoginHandler(c *gin.Context) {
 	fmt.Println(token, err)
 	if err != nil {
 		zap.L().Error("用户登录失败!!!", zap.String("username", p.Username), zap.Error(err))
-		if errors.Is(err, mysql.ErrorUserNotExist) {
+		if errors.Is(err, mysql.ErrorPasswordWrong) {
 			ResponseError(c, CodeUserNotExist)
 			return
 		}

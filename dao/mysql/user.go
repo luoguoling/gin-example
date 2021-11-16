@@ -26,7 +26,7 @@ func CheckUserExist(username string) error {
 		return err
 	}
 	if count > 0 {
-		return ErrorUserExist
+		return ErrorUserExit
 	}
 	return nil
 }
@@ -66,14 +66,32 @@ func Login(user *models.User) (err error) {
 		return
 	}
 	if err == sql.ErrNoRows {
-		return ErrorUserNotExist
+		return ErrorUserNotExit
 	}
 
 	//判断密码是否正确
 	password := encryptPassword(oPassword)
 	if password != user.Password {
-		return ErrorInvalidPassword
+		return ErrorPasswordWrong
 	}
 	return
 
+}
+
+//根据用户id返回用户信息
+func GetUserByID(userid int64) (user *models.User, err error) {
+	user = new(models.User)
+	sqlStr := `select 
+	user_id,username
+	from user
+	where user_id = ?
+	`
+	err = db.Get(user, sqlStr, userid)
+	if err == sql.ErrNoRows {
+		err = ErrorUserNotExit
+	}
+	if err != nil {
+		return
+	}
+	return
 }
