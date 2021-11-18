@@ -9,10 +9,11 @@ import (
 //获取列表数据
 func GetCommunityList() (communityList []*models.Community, err error) {
 	sqlStr := "select community_id, community_name from community"
-	err = db.Select(&communityList, sqlStr)
-	if err == sql.ErrNoRows {
-		err = nil
-		return
+	if err := db.Select(&communityList, sqlStr); err != nil {
+		if err == sql.ErrNoRows {
+			zap.L().Warn("there is no community in db")
+			err = nil
+		}
 	}
 	return
 }

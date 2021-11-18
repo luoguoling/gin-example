@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"github.com/gin-gonic/gin"
+	"go.uber.org/zap"
 	"strings"
 	"web_app/controller"
 	"web_app/dao/redis"
@@ -31,6 +32,7 @@ func JWTAuthMiddleware() gin.HandlerFunc {
 		// parts[1]是获取到的tokenString，我们使用之前定义好的解析JWT的函数来解析它
 		mc, err := jwt.ParseToken(parts[1])
 		if err != nil {
+			zap.L().Error("已经被拦截器拦截了,需要登录才可以!!!")
 			controller.ResponseError(c, controller.CodeInvalidToken)
 			c.Abort()
 			return

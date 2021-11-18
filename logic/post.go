@@ -39,7 +39,7 @@ func GetPostDetail(id int64) (data *models.ApiPostDetail, err error) {
 		zap.L().Error("mysql.GetCommunityByID() failed", zap.String("community_id", fmt.Sprint(data.CommunityID)), zap.Error(err))
 		return
 	}
-	data.CommunityName = community.CommunityName
+	data.CommunityName = community.Name
 	fmt.Println("logic.data is ", data)
 	return data, nil
 }
@@ -64,7 +64,7 @@ func GetPosts(pageNum, pageSize int) (posts []*models.ApiPostDetail, err error) 
 			zap.L().Error("mysql.GetCommunityByID() failed", zap.String("community_id", fmt.Sprint(postnew.CommunityID)), zap.Error(err))
 
 		}
-		postnew.CommunityName = community.CommunityName
+		postnew.CommunityName = community.Name
 		postSlice = append(postSlice, postnew)
 
 	}

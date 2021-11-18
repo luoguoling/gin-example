@@ -59,14 +59,14 @@ func encryptPassword(opassword string) string {
 //检查登录用户是否正确
 func Login(user *models.User) (err error) {
 	oPassword := user.Password
-	sqlStr := "select username,password from user where username = ?"
+	sqlStr := "select user_id, username, password from user where username = ?"
 	err = db.Get(user, sqlStr, user.Username)
-	if err != nil && err != sql.ErrNoRows {
-		// 查询数据库出错
-		return
-	}
 	if err == sql.ErrNoRows {
-		return ErrorUserNotExit
+		return ErrorUserNotExist
+	}
+	if err != nil {
+		// 查询数据库失败
+		return err
 	}
 
 	//判断密码是否正确
@@ -88,7 +88,7 @@ func GetUserByID(userid int64) (user *models.User, err error) {
 	`
 	err = db.Get(user, sqlStr, userid)
 	if err == sql.ErrNoRows {
-		err = ErrorUserNotExit
+		err = ErrorUserNotExist
 	}
 	if err != nil {
 		return

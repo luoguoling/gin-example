@@ -14,11 +14,11 @@ import (
 func CreatePostHandler(c *gin.Context) {
 	fmt.Println("开始处理createPost请求")
 	//接收参数
+	fmt.Println(c.Params)
 	p := new(models.Post)
 	zap.L().Info("controller.CreatePostHandler 接收参数")
 	if err := c.ShouldBindJSON(p); err != nil {
 		zap.L().Debug("c.ShouldBindJson(p) error", zap.Any("err", err))
-		zap.L().Error("参数获取错误", zap.Error(err))
 		ResponseError(c, CodeInvalidParam)
 		return
 	}

@@ -3,6 +3,7 @@ package routes
 import (
 	"fmt"
 	"github.com/gin-gonic/gin"
+	"net/http"
 	"time"
 	"web_app/controller"
 	"web_app/logger"
@@ -17,6 +18,12 @@ func Setup(mode string) *gin.Engine {
 	r := gin.New()
 	r.Use(logger.GinLogger(), logger.GinRecovery(true))
 	fmt.Println("打印viper值")
+	r.LoadHTMLFiles("./templates/index.html")
+	r.Static("/static", "./static")
+	r.GET("/", func(c *gin.Context) {
+		c.HTML(http.StatusOK, "index.html", nil)
+	})
+
 	r.GET("/version", jwt.JWTAuthMiddleware(), func(context *gin.Context) {
 		//如果是登录用户，判断是否含有有效token
 		//islogin := true
@@ -44,5 +51,10 @@ func Setup(mode string) *gin.Engine {
 		v1.GET("/post/:id", controller.GetPostDetailHandler)
 		v1.GET("/posts", controller.GetPostsHandler)
 	}
+	r.NoRoute(func(c *gin.Context) {
+		c.JSON(http.StatusOK, gin.H{
+			"msg": "404",
+		})
+	})
 	return r
 }
