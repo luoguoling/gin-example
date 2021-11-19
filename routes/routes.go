@@ -7,6 +7,7 @@ import (
 	"time"
 	"web_app/controller"
 	"web_app/logger"
+	middleware "web_app/middleware/cors"
 	"web_app/middleware/jwt"
 	"web_app/settings"
 )
@@ -41,7 +42,7 @@ func Setup(mode string) *gin.Engine {
 	//登录路由
 	v1.POST("/login", controller.LoginHandler)
 
-	v1.Use(jwt.JWTAuthMiddleware())
+	v1.Use(jwt.JWTAuthMiddleware(), middleware.Cors())
 	{
 		v1.GET("/community", controller.CommunityHandler)
 		v1.GET("/community/:id", controller.CommunityDetailHandler)
@@ -50,6 +51,9 @@ func Setup(mode string) *gin.Engine {
 		v1.POST("/post", controller.CreatePostHandler)
 		v1.GET("/post/:id", controller.GetPostDetailHandler)
 		v1.GET("/posts", controller.GetPostsHandler)
+
+		//投票功能
+		v1.POST("/vote", controller.PostVoteHandler)
 	}
 	r.NoRoute(func(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{
