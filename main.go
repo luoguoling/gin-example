@@ -23,6 +23,20 @@ import (
 	"web_app/settings"
 )
 
+// @title web_app
+// @version 1.0
+// @description gin框架
+// @termsOfService http://swagger.io/terms/
+
+// @contact.name 992975991@qq.com
+// @contact.url http://www.swagger.io/support
+// @contact.email support@swagger.io
+
+// @license.name Apache 2.0
+// @license.url http://www.apache.org/licenses/LICENSE-2.0.html
+
+// @host 127.0.0.1:8081
+// @BasePath /api/v1/
 //go web脚手架模板1
 func main() {
 	//if len(os.Args) < 2 {

@@ -6,10 +6,13 @@ import (
 	"net/http"
 	"time"
 	"web_app/controller"
+	_ "web_app/docs" // 千万不要忘了导入把你上一步生成的docs
 	"web_app/logger"
-	middleware "web_app/middleware/cors"
 	"web_app/middleware/jwt"
 	"web_app/settings"
+
+	gs "github.com/swaggo/gin-swagger"
+	"github.com/swaggo/gin-swagger/swaggerFiles"
 )
 
 func Setup(mode string) *gin.Engine {
@@ -36,13 +39,14 @@ func Setup(mode string) *gin.Engine {
 		})
 
 	})
+	r.GET("/swagger/*any", gs.WrapHandler(swaggerFiles.Handler))
 	v1 := r.Group("/api/v1")
 	//注册业务路由
 	v1.POST("/signup", controller.SignUpHandler)
 	//登录路由
 	v1.POST("/login", controller.LoginHandler)
 
-	v1.Use(jwt.JWTAuthMiddleware(), middleware.Cors())
+	//v1.Use(jwt.JWTAuthMiddleware(), middleware.Cors())
 	{
 		v1.GET("/community", controller.CommunityHandler)
 		v1.GET("/community/:id", controller.CommunityDetailHandler)

@@ -4,7 +4,6 @@ go 1.15
 
 require (
 	github.com/bwmarrin/snowflake v0.3.0
-	github.com/cpuguy83/go-md2man/v2 v2.0.1 // indirect
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible
 	github.com/fsnotify/fsnotify v1.5.1
 	github.com/gin-gonic/gin v1.7.4
@@ -20,7 +19,8 @@ require (
 	github.com/mattn/go-isatty v0.0.14 // indirect
 	github.com/natefinch/lumberjack v2.0.0+incompatible
 	github.com/spf13/viper v1.9.0
-	github.com/swaggo/swag v1.7.4 // indirect
+	github.com/swaggo/gin-swagger v1.3.3
+	github.com/swaggo/swag v1.7.4
 	github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/common v1.0.285
 	github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/vpc v1.0.285
 	github.com/unknwon/com v1.0.1
