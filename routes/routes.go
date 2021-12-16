@@ -8,9 +8,12 @@ import (
 	"web_app/controller"
 	_ "web_app/docs" // 千万不要忘了导入把你上一步生成的docs
 	"web_app/logger"
+	middleware "web_app/middleware/cors"
 	"web_app/middleware/jwt"
+	"web_app/middleware/ratelimit"
 	"web_app/settings"
 
+	"github.com/gin-contrib/pprof"
 	gs "github.com/swaggo/gin-swagger"
 	"github.com/swaggo/gin-swagger/swaggerFiles"
 )
@@ -45,12 +48,11 @@ func Setup(mode string) *gin.Engine {
 	v1.POST("/signup", controller.SignUpHandler)
 	//登录路由
 	v1.POST("/login", controller.LoginHandler)
-
-	//v1.Use(jwt.JWTAuthMiddleware(), middleware.Cors())
+	v1.GET("/communityList", controller.CommunityHandler)
+	v1.GET("/community/:id", controller.CommunityDetailHandler)
+	//v1.Use(jwt.JWTAuthMiddleware(), middleware.Cors(), ratelimit.RateLimitMiddleware(time.Second*2, 1))
+	v1.Use(middleware.Cors(), ratelimit.RateLimitMiddleware(time.Second*2, 10000))
 	{
-		v1.GET("/community", controller.CommunityHandler)
-		v1.GET("/community/:id", controller.CommunityDetailHandler)
-
 		//post
 		v1.POST("/post", controller.CreatePostHandler)
 		v1.GET("/post/:id", controller.GetPostDetailHandler)
@@ -59,6 +61,7 @@ func Setup(mode string) *gin.Engine {
 		//投票功能
 		v1.POST("/vote", controller.PostVoteHandler)
 	}
+	pprof.Register(r) //注册pprof
 	r.NoRoute(func(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{
 			"msg": "404",

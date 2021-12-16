@@ -18,7 +18,7 @@ import (
 // @Security ApiKeyAuth
 // @Param name query string false "查询参数"
 // @Success 200 {object} _Community
-// @Router /community [get]
+// @Router /communityList [get]
 func CommunityHandler(c *gin.Context) {
 	//获取分类列表
 	communityList, err := logic.GetCommunityList()
@@ -41,9 +41,9 @@ func CommunityHandler(c *gin.Context) {
 // @Produce application/json
 // @Param Authorization header string false "Bearer 用户令牌"
 // @Security ApiKeyAuth
-// @Param id query string true "查询参数"
+// @Param id query string true "community id"
 // @Success 200 {object} _CommunityDetail
-// @Router /community/{id} [get]
+// @Router /community [get]
 // 获取帖子详情
 func CommunityDetailHandler(c *gin.Context) {
 	//获取社区id
