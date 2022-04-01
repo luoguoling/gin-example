@@ -48,3 +48,21 @@ CREATE TABLE `post` (
                         KEY `idx_author_id` (`author_id`),
                         KEY `idx_community_id` (`community_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+
+CREATE TABLE `host` (
+                        `id` bigint(20) NOT NULL AUTO_INCREMENT,
+                        `region` varchar(20) NOT NULL COMMENT '机房',
+                        `hostname` varchar(30) NOT NULL COMMENT '主机名称',
+                        `publicip` varchar(20) NOT NULL COMMENT '公有ip',
+                        `privateip` varchar(20) NOT NULL COMMENT '私有ip',
+                        `os`    varchar(20) NOT NULL COMMENT '主机系统',
+                        `status` varchar(20) NOT NULL COMMENT '状态',
+                        `remark` varchar(100) NOT NULL COMMENT '备注信息',
+                        `create_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+                        `delete_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+                        `update_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+                        PRIMARY KEY (`id`),
+                        UNIQUE KEY `idx_publicip` (`publicip`) USING BTREE,
+                        UNIQUE KEY `idx_status` (`status`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;

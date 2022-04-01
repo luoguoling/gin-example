@@ -67,5 +67,11 @@ func Setup(mode string) *gin.Engine {
 			"msg": "404",
 		})
 	})
+
+	v1.GET("/hosts", controller.GetHostHandler)
+	v1.GET("/host/:id", controller.GetHostDetailHandler)
+	v1.POST("/host", controller.CreateHostHandler)
+	v1.PUT("/host/:id", controller.UpdateHostHandler)
+	v1.DELETE("/host/:id", controller.DeleteHostHandler)
 	return r
 }
