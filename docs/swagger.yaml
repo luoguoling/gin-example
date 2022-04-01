@@ -1,0 +1,94 @@
+basePath: /api/v1/
+definitions:
+  controller._Community:
+    properties:
+      id:
+        description: 帖子分类id
+        type: integer
+      name:
+        description: 帖子分类名称
+        type: string
+    type: object
+  controller._CommunityDetail:
+    properties:
+      create_time:
+        description: 创建时间
+        type: string
+      id:
+        description: id值
+        type: integer
+      introduction:
+        description: 分类介绍
+        type: string
+      name:
+        description: 帖子分类名称
+        type: string
+    type: object
+host: 127.0.0.1:8081
+info:
+  contact:
+    email: support@swagger.io
+    name: 992975991@qq.com
+    url: http://www.swagger.io/support
+  description: gin框架
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: http://swagger.io/terms/
+  title: web_app
+  version: "1.0"
+paths:
+  /community:
+    get:
+      consumes:
+      - application/json
+      description: 查询帖子列表接口
+      parameters:
+      - description: Bearer 用户令牌
+        in: header
+        name: Authorization
+        type: string
+      - description: community id
+        in: query
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/controller._CommunityDetail'
+      security:
+      - ApiKeyAuth: []
+      summary: 帖子列表接口
+      tags:
+      - 帖子相关接口
+  /communityList:
+    get:
+      consumes:
+      - application/json
+      description: 查询帖子列表接口
+      parameters:
+      - description: Bearer 用户令牌
+        in: header
+        name: Authorization
+        type: string
+      - description: 查询参数
+        in: query
+        name: name
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/controller._Community'
+      security:
+      - ApiKeyAuth: []
+      summary: 帖子列表接口
+      tags:
+      - 帖子相关接口
+swagger: "2.0"

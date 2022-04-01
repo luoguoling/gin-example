@@ -1,0 +1,143 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "gin框架",
+        "title": "web_app",
+        "termsOfService": "http://swagger.io/terms/",
+        "contact": {
+            "name": "992975991@qq.com",
+            "url": "http://www.swagger.io/support",
+            "email": "support@swagger.io"
+        },
+        "license": {
+            "name": "Apache 2.0",
+            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+        },
+        "version": "1.0"
+    },
+    "host": "127.0.0.1:8081",
+    "basePath": "/api/v1/",
+    "paths": {
+        "/community": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "查询帖子列表接口",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "帖子相关接口"
+                ],
+                "summary": "帖子列表接口",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Bearer 用户令牌",
+                        "name": "Authorization",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "community id",
+                        "name": "id",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/controller._CommunityDetail"
+                        }
+                    }
+                }
+            }
+        },
+        "/communityList": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "查询帖子列表接口",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "帖子相关接口"
+                ],
+                "summary": "帖子列表接口",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Bearer 用户令牌",
+                        "name": "Authorization",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "查询参数",
+                        "name": "name",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/controller._Community"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "controller._Community": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "description": "帖子分类id",
+                    "type": "integer"
+                },
+                "name": {
+                    "description": "帖子分类名称",
+                    "type": "string"
+                }
+            }
+        },
+        "controller._CommunityDetail": {
+            "type": "object",
+            "properties": {
+                "create_time": {
+                    "description": "创建时间",
+                    "type": "string"
+                },
+                "id": {
+                    "description": "id值",
+                    "type": "integer"
+                },
+                "introduction": {
+                    "description": "分类介绍",
+                    "type": "string"
+                },
+                "name": {
+                    "description": "帖子分类名称",
+                    "type": "string"
+                }
+            }
+        }
+    }
+}
