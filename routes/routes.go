@@ -61,7 +61,7 @@ func Setup(mode string) *gin.Engine {
 		//投票功能
 		v1.POST("/vote", controller.PostVoteHandler)
 	}
-	pprof.Register(r) //注册pprof
+	pprof.Register(r) //注册pprof111
 	r.NoRoute(func(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{
 			"msg": "404",
